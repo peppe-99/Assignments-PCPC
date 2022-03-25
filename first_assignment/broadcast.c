@@ -2,7 +2,7 @@
 #include<stdlib.h>
 #include<mpi.h>
 
-#define N 1000000
+#define N 1000
 
 int main(int argc, char **argv) {
 
@@ -16,11 +16,11 @@ int main(int argc, char **argv) {
     if (rank == 0) {
         for (int i = 1; i < np; i++) {
             // il tag sarà il rank del processo
-            MPI_Send(number, sizeof(number)/sizeof(int), MPI_INT, i, i, MPI_COMM_WORLD);
+            MPI_Send(&number, sizeof(number)/sizeof(int), MPI_INT, i, i, MPI_COMM_WORLD);
         }
     } 
     else {
-        MPI_Recv(number, sizeof(number)/sizeof(int), MPI_INT, source, rank, MPI_COMM_WORLD, &status);
+        MPI_Recv(&number, sizeof(number)/sizeof(int), MPI_INT, source, rank, MPI_COMM_WORLD, &status);
         int rc = MPI_Get_count(&status, MPI_INT, &count);
         printf("Process %d - received %d int\n", rank, count);       
     }
