@@ -20,7 +20,7 @@ int main(int argc, char **argv) {
         }
     } 
     else {
-        MPI_Recv(&number, sizeof(number)/sizeof(int), MPI_INT, source, rank, MPI_COMM_WORLD, &status);
+        MPI_Recv(&number, sizeof(number)/sizeof(int), MPI_INT, MPI_ANY_SOURCE, MPI_ANY_TAG, MPI_COMM_WORLD, &status);
         int rc = MPI_Get_count(&status, MPI_INT, &count);
         printf("Process %d - received %d int\n", rank, count);       
     }
