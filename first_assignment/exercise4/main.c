@@ -1,12 +1,13 @@
 #include<stdio.h>
 #include<mpi.h>
+#include<string.h>
 #include"mycollective.h"
 
 int main(int argc, char **argv) {
 
     int myrank, np;
     int number[10];
-    char *message;
+    char message[256];
     MPI_Status status;
 
     MPI_Init(&argc, &argv);
@@ -14,6 +15,39 @@ int main(int argc, char **argv) {
     MPI_Comm_rank(MPI_COMM_WORLD, &myrank);
 
 
+    if (myrank == 0) {
+        for (int i = 0; i < 10; i++) {
+            number[i] = i;
+        }
+        scatter(&number, MPI_INT, np, myrank, 10, sizeof(int), &status);
+    }
+    else {
+        scatter(&number, MPI_INT, np, myrank, 10, sizeof(int), &status);
+        for (int i = 0; i<(10/(np-1)); i++) {
+            printf("%d ", number[i]);
+	    fflush(stdout);
+        }
+        printf("\n");
+    }
+
+    if (myrank == 0) {
+    	strcpy(message, "lorem ipsum dolor sit amet");
+	scatter(&message, MPI_CHAR, np, myrank, strlen(message)+1, sizeof(char), &status);
+    }
+    else {
+    	scatter(&message, MPI_CHAR, np, myrank, sizeof(message), sizeof(char), &status);
+	printf("%s\n", message);
+    }
+
+
+
+
+
+
+
+
+
+/*  TEST GATHER
     if (myrank == 0) {
         int number[np-1];
         gather(&number, MPI_INT, np, myrank, sizeof(int), &status);
@@ -27,7 +61,7 @@ int main(int argc, char **argv) {
         char x = 'c';
         gather(&myrank, MPI_INT, np, myrank, sizeof(int), &status);
     }
-
+*/
 
 
 /*  TEST BROADCAST
