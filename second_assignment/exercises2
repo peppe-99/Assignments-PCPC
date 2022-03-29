@@ -1,0 +1,24 @@
+1. Ring. Dati P processi, il processo con rank i invia un valore intero al
+processo con rank i+1. Notare che lo schema di comunicazione è ad anello e
+toroidale, quindi il processo con rank P-1 invia al processo con rank 0.
+L'esecuzione del programma prevede 10 iterazioni. In ogni iterazione, i
+processi incrementano il valore ricevuto dal vicino di sinistra con un intero
+pseudo-casuale compreso tra 0-100. Una particolare iterazione termina
+quando il valore ricevuto da un processo ha superato una certa soglia S data
+in input al programma. Il programma al termine delle 10 iterazioni scrive su
+standard output (rank 0) il numero medio di round di comunicazione
+necessari per arrivare a convergenza utilizzando P ed S. Notare che tra le
+varie iterazioni non si deve inizializzare nuovamente il generatore di numeri
+casuali. Si consiglia di inizializzare i generatori utilizzando il valore del rank 
+
+2. Calcolare il massimo, il minimo, la media di array di valori interi utilizzando P
+processi ed operazioni di comunicazione in modalità bloccante.
+
+3. Sviluppare la funzionalità di Reduce nella libreria mycollective , in grado di
+supportare gli operatori di massimo, minimo e media di un array di interi.
+
+4. Modificare la libraria mycollective al fine di realizzare le operazioni di gather,
+scatter, broadcast, e di reduce in modalità non bloccante. Notare che tali
+operazioni coinvolgono più processi di conseguenza bisogna fornire nella
+libreria anche un operazione di wating di un array di MPI_Request, si
+possono utilizzare le operazioni offerte da MPI.
