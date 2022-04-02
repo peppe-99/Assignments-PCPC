@@ -3,10 +3,10 @@
 #include<mpi.h>
 #include"mycollective.h"
 
-int main(int argc, char const *argv[]) {
+int main(int argc, char *argv[]) {
     
     int rank, np, count;
-    int numbers = (int*)malloc(sizeof(int) * 10);
+    int *numbers = (int*)malloc(sizeof(int) * 10);
     MPI_Status status;
 
     MPI_Init(&argc, &argv);
@@ -17,10 +17,10 @@ int main(int argc, char const *argv[]) {
         for (int i = 0; i < 10; i++) {
             numbers[i] = i;
         }
-        Ibroadcast(numbers, MPI_INT, np, rank, 10, sizeof(int), &status);
+        Ibroadcast(numbers, MPI_INT, np, rank, 10, &status);
     }
     else {
-        Ibroadcast(numbers, MPI_INT, np, rank, 10, sizeof(int), &status);
+        Ibroadcast(numbers, MPI_INT, np, rank, 10, &status);
         MPI_Get_count(&status, MPI_INT, &count);
         printf("Processo %d ha ricevuto %d interi\n", rank, count);
         for (int i = 0; i < 10; i++) {
@@ -31,8 +31,8 @@ int main(int argc, char const *argv[]) {
 
     if (rank == 0) {
         Igather(numbers, MPI_INT, np, rank, sizeof(int), &status);
-        printf("Gather: ")
-        for (int i = 0; i < 10; i++) {
+        printf("Gather: ");
+        for (int i = 0; i < np-1; i++) {
             printf("%d ", numbers[i]);
         }
         printf("\n");   
@@ -40,7 +40,20 @@ int main(int argc, char const *argv[]) {
     else {
         Igather(&numbers[rank-1], MPI_INT, np, rank, sizeof(int), &status);
     }
-    
+
+
+    if (rank == 0) {
+        Iscatter(numbers, MPI_INT, np, rank, 10, sizeof(int), &status);
+    }
+    else {
+        Iscatter(numbers, MPI_INT, np, rank, 10, sizeof(int), &status);
+        MPI_Get_count(&status, MPI_INT, &count);
+        printf("Processo %d ha ricevuto %d interi\n", rank, count);
+        for (int i = 0; i < count; i++) {
+            printf("%d ", numbers[i]);
+        }
+        printf("\n"); 
+    }
     
     MPI_Finalize();
 
