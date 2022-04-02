@@ -1,0 +1,11 @@
+1. Ring 2: Dati P processori realizzare un programma MPI dove, ogni processore invia il proprio rank al vicino destro nell'ordine di rank definito da MPI_COMM_WORLD e riceve dal vicino sinistro. La comunicazione del proprio rank deve avvenire in modo non bloccante. Inoltre ogni processo inoltra i messaggi che riceve dal vicino sinistro e somma tutti i valori compreso il suo in una variabile, il processo termina quando ogni processo ha ricevuto il rank di tutti gli altri e scrive su standard output il valore della somma calcolato.
+
+2. Sviluppare il medesimo programma ma sfruttando la comunicazione bloccante e le differenti modalità di comunicazione.
+
+3. Valutare le prestazioni dei programmi su un cluster Google GCP di macchine e2-micro da 2 a 8 nodi.
+
+4. Eseguire e valutare le prestazioni di tutti i programmi realizzati nelle Esercitazioni 1 e 2 sul medesimo cluster.
+
+5. Verificare la latenza (mpi_latency.c) di un cluster di due nodi in esecuzione su Google GCP Compute Engine, variando la tipologia di istanza, regione, e zona di esecuzione. 
+        e2-micro | us-central1-a | us-central1-b    
+        e2-micro | us-central1-a | us-east1-b
