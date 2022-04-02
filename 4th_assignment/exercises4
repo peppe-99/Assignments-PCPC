@@ -1,0 +1,23 @@
+1. Broadcasting Sviluppare un programma MPI che utilizza P processori, dove il processo con rank 0 in MPI_COMM_WORLD invia un array di float a tutti gli altri processi in MPI_COMM_WORLD.
+
+2. Scattering Sviluppare un programma MPI che utilizza P processori, il processo con rank 0 in MPI_COMM_WORLD suddivide un array di float tra tutti i processi in MPI_COMM_WORLD.
+
+3. Gathering Sviluppare un programma MPI che utilizza P processori, il processo con rank 0 in MPI_COMM_WORLD colleziona un insieme di valori float distribuiti tra tutti i processi in MPI_COMM_WORLD.
+
+4. Valutare le prestazioni dei precedenti programmi nel gestire array di float di grandi dimensioni in rapporto al numero di processori disponibili (locale).
+
+5. Implementare i punti 1,2,3 utilizzando la libreria mycollective e valutare le prestazioni rispetto alle operazioni collettive di MPI (locale).
+
+6. Valutare le prestazioni di tutti i programmi fino ad ora realizzati su cluster MPI di 8 nodi.
+
+7. Sviluppare un programma MPI che dato un array, A di interi di lunghezza N, utilizza equamente P processori per aggiornare i valori in A. Ogni elemento A[i] è calcoloato utilizzando la seguente operazione:
+        A[i]=A[i-1]+A[i]+A[i+1], per ogni i, 1...N-2
+        A[0]=A[N-1]+[0]+A[1], i=0
+        A[N-1]=A[N-2]+[N-1]+A[0], i=N-1
+l'array A viene inizializzato nel processo master e gli slave eseguono le operazioni solo sulla propria porzione di array; ogni processo slave invia la sua porzione di array nuovamente al master; alla terminazione delle ricezioni il processo master scrive su standard output il tempo di esecuzione.
+
+8. Sviluppare un programma MPI che data una matrice di dimensione NxM e P processi, calcola il massimo per ogni riga della matrice utilizzando in modo equo i P processi. Alla terminazione il master scrive su standard output il massimo di ogni riga.
+
+9. Ripetere il punto precedente calcolando il minimo per ogni colonna.
+
+10. Combinare in un unico programma il punto 8 e 9
