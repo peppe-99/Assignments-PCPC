@@ -1,10 +1,11 @@
-1. Broadcasting Sviluppare un programma MPI che utilizza P processori, dove il processo con rank 0 in MPI_COMM_WORLD invia un array di float a tutti gli altri processi in MPI_COMM_WORLD.
+1. Broadcasting: Sviluppare un programma MPI che utilizza P processori, dove il processo con rank 0 in MPI_COMM_WORLD invia un array di float a tutti gli altri processi in MPI_COMM_WORLD.
 
-2. Scattering Sviluppare un programma MPI che utilizza P processori, il processo con rank 0 in MPI_COMM_WORLD suddivide un array di float tra tutti i processi in MPI_COMM_WORLD.
+2. Scattering: Sviluppare un programma MPI che utilizza P processori, il processo con rank 0 in MPI_COMM_WORLD suddivide un array di float tra tutti i processi in MPI_COMM_WORLD.
 
-3. Gathering Sviluppare un programma MPI che utilizza P processori, il processo con rank 0 in MPI_COMM_WORLD colleziona un insieme di valori float distribuiti tra tutti i processi in MPI_COMM_WORLD.
+3. Gathering: Sviluppare un programma MPI che utilizza P processori, il processo con rank 0 in MPI_COMM_WORLD colleziona un insieme di valori float distribuiti tra tutti i processi in MPI_COMM_WORLD.
 
 4. Valutare le prestazioni dei precedenti programmi nel gestire array di float di grandi dimensioni in rapporto al numero di processori disponibili (locale).
+        (è stato integrato singolarmente nei precedenti esercizi)
 
 5. Implementare i punti 1,2,3 utilizzando la libreria mycollective e valutare le prestazioni rispetto alle operazioni collettive di MPI (locale).
 
