@@ -2,7 +2,7 @@
 #include<stdlib.h>
 #include<mpi.h>
 
-#define N 640000000
+#define N 1000000000
 
 
 int main(int argc, char *argv[]) {
@@ -16,6 +16,7 @@ int main(int argc, char *argv[]) {
 
     float* send_data = (float*)malloc(sizeof(float) * N);
     float* receive_data = (float*)malloc(sizeof(float) * N / np);
+
 
     MPI_Barrier(MPI_COMM_WORLD);
     start = MPI_Wtime();
