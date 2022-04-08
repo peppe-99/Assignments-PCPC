@@ -3,10 +3,10 @@
 #include<mpi.h>
 #include<string.h>
 
-#define N 14
+#define N 23
 #define K 2
 
-int main(int argc, char *argv[]) {
+int main(int argc, char *argv[]) {*
     
     int np, rank, A[N], tag = 28;
 
@@ -58,13 +58,38 @@ int main(int argc, char *argv[]) {
             MPI_Irecv(successivi, K, MPI_INT, rank+1, tag, MPI_COMM_WORLD, &receive_next);
 
             /* calcolare lo smoothing dei non vincolati */
-
-            MPI_Wait(&receive_next, MPI_STATUS_IGNORE);
-            printf("Slave %d - successivi: ", rank);
-            for (int i = 0; i < K; i++) {
-                printf("%d ", successivi[i]);
+            if (non_vincolati > 0) {
+                for (int i = K; i < K + non_vincolati; i++) {
+                    int sum = 0;
+                    for (int j = i - K; j <= i + K; j++) {
+                        sum += subA[j];
+                    }
+                    printf("sum: %d\n", sum);
+                    subA[i] = sum / (2*K + 1);
+                }
+            }
+            printf("Slave %d: ", rank);
+            for (int i = 0; i < process_size; i++) {
+                printf("%d ", subA[i]);
             }
             printf("\n\n");
+            
+
+            MPI_Wait(&receive_next, MPI_STATUS_IGNORE);
+            /* printf("Slave %d - successivi: ", rank);
+            /*for (int i = 0; i < K; i++) {
+                printf("%d ", successivi[i]);
+            }
+            printf("\n\n");*/
+            /* calcoliamo lo smoothing degli ultimi vincolati */
+            for (int i = process_size - K; i < process_size; i++) {
+                int sum = 0;
+                for (int j = 0; j < K; j++) {
+
+                }
+                
+            }
+            
             
         }
         else if(rank == np-1) {
@@ -73,13 +98,28 @@ int main(int argc, char *argv[]) {
             MPI_Irecv(precedenti, K, MPI_INT, rank-1, tag, MPI_COMM_WORLD, &receive_back); 
 
             /* calcolare lo smoothing dei non vincolati */
+            if (non_vincolati > 0) {
+                for (int i = K; i < K + non_vincolati; i++) {
+                    int sum = 0;
+                    for (int j = i - K; j <= i + K; j++) {
+                        sum += subA[j];
+                    }
+                    printf("sum: %d\n", sum);
+                    subA[i] = sum / (2*K + 1);
+                }
+            }
+            printf("Slave %d: ", rank);
+            for (int i = 0; i < process_size; i++) {
+                printf("%d ", subA[i]);
+            }
+            printf("\n\n");
 
             MPI_Wait(&receive_back, MPI_STATUS_IGNORE);
-            printf("Slave %d - precedenti: ", rank);
+            /*printf("Slave %d - precedenti: ", rank);
             for (int i = 0; i < K; i++) {
                 printf("%d ", precedenti[i]);
             }
-            printf("\n\n");
+            printf("\n\n");*/
 
         }
         else {
@@ -90,19 +130,35 @@ int main(int argc, char *argv[]) {
             MPI_Irecv(precedenti, K, MPI_INT, rank-1, tag, MPI_COMM_WORLD, &receive_back);
 
             /* calcolare lo smoothing dei non vincolati */
+            if (non_vincolati > 0) {
+                for (int i = K; i < K + non_vincolati; i++) {
+                    int sum = 0;
+                    for (int j = i - K; j <= i + K; j++) {
+                        sum += subA[j];
+                    }
+                    printf("sum: %d\n", sum);
+                    subA[i] = sum / (2*K + 1);
+                }
+            }
+
+            printf("Slave %d: ", rank);
+            for (int i = 0; i < process_size; i++) {
+                printf("%d ", subA[i]);
+            }
+            printf("\n\n");
 
             MPI_Wait(&receive_next, MPI_STATUS_IGNORE);
-            printf("Slave %d - successivi: ", rank);
+            /*printf("Slave %d - successivi: ", rank);
             for (int i = 0; i < K; i++) {
                 printf("%d ", successivi[i]);
             }
-            printf("\n");
+            printf("\n");*/
             MPI_Wait(&receive_back, MPI_STATUS_IGNORE);
-            printf("Slave %d - precedenti: ", rank);
+            /*printf("Slave %d - precedenti: ", rank);
             for (int i = 0; i < K; i++) {
                 printf("%d ", precedenti[i]);
             }
-            printf("\n\n");
+            printf("\n\n");*/
         }
         
 
